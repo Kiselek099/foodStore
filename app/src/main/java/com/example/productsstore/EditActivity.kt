@@ -83,11 +83,10 @@ class EditActivity : AppCompatActivity() {
         requestCode: Int,
         resultCode: Int,
         data: Intent?,
-        caller: ComponentCaller
     ) {
-        super.onActivityResult(requestCode, resultCode, data, caller)
-        when(resultCode){
-            GALLERY_REQUEST->if(requestCode=== RESULT_OK){
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            GALLERY_REQUEST->if(resultCode== RESULT_OK){
                 val selectedImage: Uri?=data?.data
                 try {
                     bitmap=MediaStore.Images.Media.getBitmap(contentResolver,selectedImage)

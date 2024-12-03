@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ProductsStore</string>
+    <string name="foodName">Название продукта</string>
+    <string name="foodCost">Цена продукта</string>
+    <string name="tittle">Магазин продуктов</string>
+    <string name="createBTN">Создать магазин</string>
+    <string name="exit">Выход</string>
+</resources>

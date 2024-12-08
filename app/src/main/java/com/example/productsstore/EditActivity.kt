@@ -1,6 +1,4 @@
 package com.example.productsstore
-
-import android.app.ComponentCaller
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -8,6 +6,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -18,11 +17,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import java.io.IOException
-import kotlin.math.cos
 
-class EditActivity : AppCompatActivity() {
+
+class EditActivity : AppCompatActivity(),Removable,Updatable{
     private  val GALLERY_REQUEST=302
-    var bitmap: Bitmap?=null
+    var food:Food?=null
+    var photoUri:Uri?=null
     var foodList:MutableList<Food> = mutableListOf()
     lateinit var addImageIV:ImageView
     lateinit var nameET:EditText
@@ -30,6 +30,10 @@ class EditActivity : AppCompatActivity() {
     lateinit var addBTN:Button
     lateinit var foodListLV:ListView
     lateinit var titleTB:Toolbar
+    lateinit var descriptionET:EditText
+    var check=true
+    var listAdapter:ListAdapter?=null
+    var item:Int?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -47,32 +51,47 @@ class EditActivity : AppCompatActivity() {
         }
         addBTN.setOnClickListener {
             createFood()
-            val listAdapter=ListAdapter(this@EditActivity,foodList)
+            listAdapter=ListAdapter(this@EditActivity,foodList)
             foodListLV.adapter=listAdapter
-            listAdapter.notifyDataSetChanged()
+            listAdapter?.notifyDataSetChanged()
             clearEditFields()
         }
+        foodListLV.onItemClickListener=
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val food=listAdapter!!.getItem(position)
+                item=position
+                val dialog=MyAlertDialog()
+                val args=Bundle()
+                args.putSerializable("food",food)
+                dialog.arguments=args
+                dialog.show(supportFragmentManager,"custom")
+            }
     }
 
     private fun createFood() {
         val name = nameET.text.toString()
         val cost = costET.text.toString()
-        val image = bitmap
+        val description=descriptionET.text.toString()
+        val image = photoUri.toString()
         if(name.isEmpty()||cost.isEmpty()) return
-        val food = Food(name, cost, bitmap)
-        foodList.add(food)
+        val food = Food(name, cost, description ,image)
+        foodList.add(food!!)
+
     }
 
     private fun clearEditFields() {
         nameET.text.clear()
         costET.text.clear()
+        descriptionET.text.clear()
         addImageIV.setImageResource(R.drawable.baseline_fastfood_24)
+        photoUri=null
     }
 
     private fun init() {
         addImageIV = findViewById(R.id.addImageIV)
         nameET = findViewById(R.id.nameET)
         costET = findViewById(R.id.costET)
+        descriptionET=findViewById(R.id.descriptionET)
         addBTN = findViewById(R.id.addBTN)
         foodListLV = findViewById(R.id.foodListLV)
         titleTB=findViewById(R.id.titleTB)
@@ -87,13 +106,8 @@ class EditActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode){
             GALLERY_REQUEST->if(resultCode== RESULT_OK){
-                val selectedImage: Uri?=data?.data
-                try {
-                    bitmap=MediaStore.Images.Media.getBitmap(contentResolver,selectedImage)
-                } catch (e:IOException){
-                    e.printStackTrace()
-                }
-                addImageIV.setImageBitmap(bitmap)
+                photoUri=data?.data
+                addImageIV.setImageURI(photoUri)
             }
         }
 
@@ -112,5 +126,19 @@ class EditActivity : AppCompatActivity() {
             }
             else->super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun remove(food: Food) {
+        listAdapter?.remove(food)
+    }
+
+    override fun update(food: Food) {
+        val intent=Intent(this,AboutFoodAct::class.java)
+        intent.putExtra("food",food)
+        intent.putExtra("photoUri", food.image)
+        intent.putExtra("foods",this.foodList as ArrayList<Food>)
+        intent.putExtra("position",item)
+        intent.putExtra("check",check)
+        startActivity(intent)
     }
 }

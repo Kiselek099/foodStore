@@ -5,4 +5,5 @@
     <string name="tittle">Магазин продуктов</string>
     <string name="createBTN">Создать магазин</string>
     <string name="exit">Выход</string>
+    <string name="about_product">Краткое описание продукта</string>
 </resources>

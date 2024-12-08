@@ -44,6 +44,13 @@
                 android:hint="@string/foodCost"
                 android:layout_weight="1">
             </EditText>
+            <EditText
+                android:id="@+id/descriptionET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/about_product"
+                android:layout_weight="1">
+            </EditText>
         </LinearLayout>
 
     </LinearLayout>

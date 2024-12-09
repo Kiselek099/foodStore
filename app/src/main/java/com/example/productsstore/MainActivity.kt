@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         return when(item.itemId){
             R.id.exitApp->{
                 finishAffinity()
+                Toast.makeText(this,"Программа завершена",Toast.LENGTH_SHORT).show()
                 true
             }
             else->super.onOptionsItemSelected(item)

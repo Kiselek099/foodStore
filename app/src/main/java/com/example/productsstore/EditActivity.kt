@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -122,16 +123,15 @@ class EditActivity : AppCompatActivity(),Removable,Updatable{
         return when(item.itemId){
             R.id.exitApp->{
                 finishAffinity()
+                Toast.makeText(this,"Программа завершена", Toast.LENGTH_SHORT).show()
                 true
             }
             else->super.onOptionsItemSelected(item)
         }
     }
-
     override fun remove(food: Food) {
         listAdapter?.remove(food)
     }
-
     override fun update(food: Food) {
         val intent=Intent(this,AboutFoodAct::class.java)
         intent.putExtra("food",food)
@@ -140,5 +140,16 @@ class EditActivity : AppCompatActivity(),Removable,Updatable{
         intent.putExtra("position",item)
         intent.putExtra("check",check)
         startActivity(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        check=intent.extras?.getBoolean("newCheck")?:true
+        if (!check){
+            foodList=intent.getSerializableExtra("list") as MutableList<Food>
+            listAdapter= ListAdapter(this,foodList)
+            check=true
+        }
+        foodListLV.adapter=listAdapter
     }
 }

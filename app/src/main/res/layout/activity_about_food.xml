@@ -26,29 +26,30 @@
         android:layout_margin="20dp"
 
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/nameTV"
+        <EditText
+            android:id="@+id/nameET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="26sp"
             android:gravity="center"
             android:textStyle="bold"
             android:hint="@string/foodName">
-        </TextView>
-        <TextView
-            android:id="@+id/costTV"
+        </EditText>
+        <EditText
+            android:id="@+id/costET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:gravity="center"
             android:hint="@string/foodCost">
-        </TextView>
-        <TextView
-            android:id="@+id/descriptionTV"
+        </EditText>
+        <EditText
+            android:id="@+id/descriptionET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
+            android:gravity="center"
             android:hint="@string/about_product">
-        </TextView>
+        </EditText>
     </LinearLayout>
 </LinearLayout>

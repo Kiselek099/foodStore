@@ -6,4 +6,6 @@
     <string name="createBTN">Создать магазин</string>
     <string name="exit">Выход</string>
     <string name="about_product">Краткое описание продукта</string>
+    <string name="back">Вернуться</string>
+    <string name="save_change">Сохранить изменения</string>
 </resources>

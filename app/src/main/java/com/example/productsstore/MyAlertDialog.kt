@@ -21,7 +21,7 @@ class MyAlertDialog:DialogFragment() {
             .setPositiveButton("Удалить"){dialog,which->
                 removable?.remove(food as Food)
             }
-            .setNegativeButton("Описание"){dialog,which->
+            .setNegativeButton("Редактировать"){dialog,which->
                 updatable?.update(food as Food)
             }
             .setNeutralButton("Отмена",null)
